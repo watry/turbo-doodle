@@ -1,5 +1,7 @@
 主题：用高德地图显示国际空间站位置
 
+运行实例：http://ss1.xen.prgmr.com:9000/
+
 使用的API：
 - NASA提供的sscws库（https://api.nasa.gov/）
 - 高德地图提供的静态地图API（https://lbs.amap.com/api/webservice/guide/api/staticmaps）
