@@ -41,8 +41,8 @@ def get_loc(name="水果湖"):
 def get_mappic(lat=40,lon=40):
     URL = 'https://restapi.amap.com/v3/staticmap'
     parameters = {
-        'location':str(lat)+','+str(lon),
-        'markers':"mid,0xFFA500,I:"+str(lat)+','+str(lon),
+        'location':str(lon)+','+str(lat),
+        'markers':"mid,0xFFA500,I:"+str(lon)+','+str(lat),
         'zoom':2,
         'key':amap_key,
     }
