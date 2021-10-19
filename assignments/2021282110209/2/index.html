@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- pages for EE417C, written by Qiang Ma -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Assignment for EE417C">
+    <meta name="author" content="Qiang Ma">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>view booking</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+
+    .this_table {
+      min-width: 600px;
+      min-height: 300px;
+      /* height: 100%; */
+      background-color: #eeeeee;
+      padding-left: 40px;
+      padding-bottom: 20px;
+      color: grey;
+      padding: 20px;
+    }
+    footer {
+      background-color: pink;
+      color:brown;
+      min-width: 640px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    </style>
+  </head>
+<body>
+
+<b>Hello {{name}}</b><br>
+<b>{{info}}</b>
+
+<form action="/" method="post">
+    Username: <input name="username" type="text" />
+    Password: <input name="password" type="password" />
+    <input value="Login" type="submit" />
+</form>
+<br>
+
+<form action="/" method="get">
+    place: <input name="place" type="text" />
+    <input value="submit" type="submit" />
+</form>
+
+</body>

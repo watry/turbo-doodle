@@ -1,0 +1,9 @@
+主题：用高德地图显示国际空间站位置
+
+使用的API：
+- NASA提供的sscws库（https://api.nasa.gov/）
+- 高德地图提供的静态地图API（https://lbs.amap.com/api/webservice/guide/api/staticmaps）
+
+用法：
+1. 从NASA获取国际空间站最近的经纬度记录（输出：时间，输出：位置等信息的序列）
+2. 从高德地图获取该位置的地图图片（输入：经纬度，输出：PNG图片）
