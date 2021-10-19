@@ -1,40 +1,30 @@
 import requests
-from PIL import Image
-from io import BytesIO
-
-# import matplotlib.pyplot as plt
-
-amap_key = '04f9a0fac9572ad6709b2d89b90990f3'
-nasa_key = 'SexHZwo6Wk3pqH6vHLLcGWmioGeCWoxXQzM54ELy'
-r_parameters = {
-    'key':amap_key,
-    'location':"123,70",
-}
-URL = 'https://restapi.amap.com/v3/geocode/geo'
-r_URL = 'https://restapi.amap.com/v3/geocode/regeo'
-
-import datetime
-
-
 from sscws.sscws import SscWs
 import datetime
+import keys
+
+amap_key = keys.get_amap_key()
+nasa_key = keys.get_nasa_key()
+
+URL = 'https://restapi.amap.com/v3/geocode/geo'
+
 
 def get_iss():
     ssc = SscWs()
 
     #  Edit the following time variable to suit your needs.
-    time = ['2021-11-07T23:00:00.000Z', '2021-11-08T00:00:00.000Z']
+    # time = ['2021-11-07T23:00:00.000Z', '2021-11-08T00:00:00.000Z']
     time = [(datetime.datetime.now() - datetime.timedelta(hours = 1)).isoformat(), datetime.datetime.now().isoformat()]
 
     result = ssc.get_locations(['iss'], time)
-
     data = result['Data'][0]
-    coords = data['Coordinates'][0]
-    iss_lat = coords['Latitude'][0]
-    iss_lon = coords['Longitude'][0]
-    iss_time = coords['LocalTime'][0]
-    print(coords['Latitude'][0],coords['Longitude'][0],coords['LocalTime'][0])
     
+    coords = data['Coordinates'][0]
+    iss_lat = round(coords['Latitude'][0],2)
+    iss_lon = round(coords['Longitude'][0],2)
+    iss_time = coords['LocalTime'][0]
+    
+    print("ISS is at ",iss_lat, iss_lon, iss_time)
     return [iss_lat, iss_lon, iss_time]
 
 
@@ -48,11 +38,11 @@ def get_loc(name="水果湖"):
     res = requests.get(URL, parameters)
     return res.json()
 
-def get_mappic(lat,lon):
+def get_mappic(lat=40,lon=40):
     URL = 'https://restapi.amap.com/v3/staticmap'
     parameters = {
         'location':str(lat)+','+str(lon),
-        'marker':str(lat)+','+str(lon),
+        'markers':"mid,0xFFA500,I:"+str(lat)+','+str(lon),
         'zoom':2,
         'key':amap_key,
     }
@@ -61,32 +51,17 @@ def get_mappic(lat,lon):
     
     with open('p.png','wb') as p:
         p.write(res.content)
-    # i = Image.open(BytesIO(res.content))
-    # plt.imshow(i)
-
-
-def get_pic(lat,lon):
-    URL = 'https://api.nasa.gov/planetary/earth/imagery'
-    parameters = {
-        'api_key':nasa_key,
-        'lat':lat,
-        'lon':lon,
-    }
-    res = requests.get(URL, parameters)
-    
-    print(res.content)
-    return res.json()
 
 
 if __name__ == "__main__":
-    name = '天安门'
-    res = get_loc()
-    # print(res)
+    # 测试
+    name = '汉口'
+    res = get_loc(name)
     loc = res['geocodes'][0]['location']
+    print(res['geocodes'][0]['city'] )
     assert(res['geocodes'][0]['city'] == "武汉市")
     print(name + " is at " + loc)
-    # get_pic(loc[0],loc[1])
     
     iss = get_iss()
-    print(get_mappic(iss[0],iss[1]))
+    get_mappic(iss[0],iss[1])
     

@@ -3,11 +3,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="description" content="Assignment for EE417C">
+    <meta name="description" content="Assignment for 服务计算@whu">
     <meta name="author" content="Qiang Ma">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <title>view booking</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>ISS位置查询</title>
     <style>
 
     .this_table {
@@ -31,20 +30,12 @@
     </style>
   </head>
 <body>
-
-<b>Hello {{name}}</b><br>
-<b>{{info}}</b>
-
-<form action="/" method="post">
-    Username: <input name="username" type="text" />
-    Password: <input name="password" type="password" />
-    <input value="Login" type="submit" />
-</form>
-<br>
-
-<form action="/" method="get">
-    place: <input name="place" type="text" />
-    <input value="submit" type="submit" />
-</form>
+  <h>ISS位置查询</h><br>
+  <img src="p.png">
+  <p>经度：{{lat}}</p>
+  <p>纬度：{{lon}}</p>
+  <p>信息时间：{{info_time}}</p>
+  <p>查询时间：{{query_time}}</p><br>
+  <p>for 服务计算与软件服务工程 by 马强</p>
 
 </body>

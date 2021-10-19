@@ -1,28 +1,34 @@
-# https://www.askpython.com/python-modules/python-httpserver
-# server.py
-import http.server # Our http server handler for http requests
-import socketserver # Establish the TCP Socket connections
- 
-PORT = 9000
- 
-class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        self.path = 'index.html'
-        return http.server.SimpleHTTPRequestHandler.do_GET(self)
- 
-Handler = MyHttpRequestHandler
- 
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("Http Server Serving at port", PORT)
-    httpd.serve_forever()
+from bottle import route, post, run, get, template, request,response,static_file
+import func
+import time
+
+@route('/<filename>')
+def server_static(filename):
+    return static_file(filename, root='.')
+
+@route('/')
+def index():
+    iss = func.get_iss()
+    func.get_mappic(iss[0],iss[1])
+    # res = func.get_loc(request.query['place'])
+    # print(">>>",response.charset,request.query['place'],res,"<<<")
+    # print(res['geocodes'][0]['city'],res['geocodes'][0]['location'])
+    with open("index.html") as f:
+        return template(f.read(), lat=iss[0],lon=iss[1],info_time=iss[2],query_time=time.asctime(time.localtime(time.time())))
 
 
-# 
-# if __name__ == "__main__":
-#     URL = 'https://restapi.amap.com/v3/geocode/geo'
-#     parameters = {
-#         'key':amap_key,
-#         'address':"水果湖",
-#         'output':'json',
-#     }
-# python -m http.server 9000
+
+@post('/') # or @route('/login', method='POST')
+def do_login(name="user", info=''):
+    username = request.forms.get('username')
+    password = request.forms.get('password')
+    if True:
+        print(username,password)
+        info = "Your login information was correct."
+        return index(name, info)
+    else:
+        return "<p>Login failed.</p>"
+        
+        
+
+run(host="0.0.0.0",port=9000)
