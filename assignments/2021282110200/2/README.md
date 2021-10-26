@@ -9,5 +9,5 @@
 * unit：将location和weather整合的服务模块，根据IP获得ip地址所在城市天气
 
 ### 测试用例
-* ![Alt text](vuwtls\static\image\example.png)
+* ![Alt text](./vuwtls/static/image/example.png)
 
