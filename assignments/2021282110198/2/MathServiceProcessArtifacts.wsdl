@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:p="http://www.w3.org/2001/XMLSchema" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ws.bpel.cqu" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" name="MathServiceProcess" targetNamespace="http://ws.bpel.cqu">
+
+	<!--
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		TYPE DEFINITION - List of types participating in this BPEL process The
+		BPEL Designer will generate default request and response types but you
+		can define or import any XML Schema type and use them as part of the
+		message types.
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	-->
+
+    <plnk:partnerLinkType name="AddService">
+    <plnk:role name="AddServiceProvider" portType="tns:AddServicePortType"/>
+  </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="SubService">
+    <plnk:role name="SubServiceProvider" portType="tns:SubServicePortType"/>
+  </plnk:partnerLinkType>
+    <import location="AddService.wsdl" namespace="http://ws.bpel.cqu"/>
+    <import location="SubService.wsdl" namespace="http://ws.bpel.cqu"/>
+    <types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ws.bpel.cqu">
+
+			<element name="MathServiceProcessRequest">
+				<complexType>
+					<sequence>
+						<element name="type" type="string"/>
+						<element name="a" type="int"/>
+						<element name="b" type="int"/>
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="MathServiceProcessResponse">
+				<complexType>
+					<sequence>
+						<element name="MathResult" type="int"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="NewOperation">
+				<complexType>
+					<sequence>
+
+						<element name="in" type="string"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="NewOperationResponse">
+				<complexType>
+					<sequence>
+
+						<element name="out" type="string"/>
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+
+
+	<!--
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		MESSAGE TYPE DEFINITION - Definition of the message types used as part
+		of the port type defintions
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	-->
+	<message name="MathServiceProcessRequestMessage">
+		<part element="tns:MathServiceProcessRequest" name="payload"/>
+	</message>
+	<message name="MathServiceProcessResponseMessage">
+		<part element="tns:MathServiceProcessResponse" name="payload"/>
+	</message>
+
+	<!--
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		PORT TYPE DEFINITION - A port type groups a set of operations into a
+		logical service unit.
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	-->
+
+	<!-- portType implemented by the MathServiceProcess BPEL process -->
+	<portType name="MathServiceProcess">
+		<operation name="process">
+			<input message="tns:MathServiceProcessRequestMessage"/>
+			<output message="tns:MathServiceProcessResponseMessage"/>
+		</operation>
+	</portType>
+
+
+	<!--
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		PARTNER LINK TYPE DEFINITION
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	-->
+	<plnk:partnerLinkType name="MathServiceProcess">
+		<plnk:role name="MathServiceProcessProvider" portType="tns:MathServiceProcess"/>
+	</plnk:partnerLinkType>
+
+	<binding name="MathServiceBinding" type="tns:MathServiceProcess">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http">
+		</soap:binding>
+		<operation name="process">
+			<soap:operation soapAction="http://ws.bpel.cqu/process">
+			</soap:operation>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="MathService">
+		<port binding="tns:MathServiceBinding" name="MathServicePort">
+			<soap:address location="http://localhost:8080/ode/processes/MathServiceProcess"/>
+		</port>
+	</service>
+</definitions>

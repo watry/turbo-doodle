@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2021/10" xmlns:ws.bpel.cqu="http://ws.bpel.cqu">
+  <process name="ws.bpel.cqu:MathServiceProcess">
+    <active>true</active>
+    <retired>false</retired>
+    <process-events generate="all"/>
+    <provide partnerLink="client">
+      <service name="ws.bpel.cqu:MathService" port="MathServicePort"/>
+    </provide>
+    <invoke partnerLink="addService">
+      <service name="ws.bpel.cqu:AddService" port="AddServiceHttpSoap11Endpoint"/>
+    </invoke>
+    <invoke partnerLink="subService">
+      <service name="ws.bpel.cqu:SubService" port="SubServiceHttpSoap11Endpoint"/>
+    </invoke>
+  </process>
+</deploy>
