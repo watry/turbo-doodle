@@ -1,0 +1,19 @@
+server:
+  port: 1299
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: CONFIG-SERVER
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/newbeginer/web_test.git  #git文件地址
+          username: 1097925709@qq.com  		 #Github账号
+          password: xxxxxxxxxxxxx					 #为保护我的账号就不显示了，实际可以运行
+          default-label: main
