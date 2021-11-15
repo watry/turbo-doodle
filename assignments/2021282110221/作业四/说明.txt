@@ -1,0 +1,4 @@
+代码来自：https://github.com/wronnyhuang/wsdream
+
+介绍：作者用tensorflow对用户的经纬度和服务的经纬度与响应时间的关系建立了一个MLP模型，80%的数据用来训练，
+20%的数据用来测试，最后对用户和服务的距离和响应时间之间的关系做预测，详细结果在result.png中可见。
